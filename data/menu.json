@@ -1,0 +1,52 @@
+[
+  {
+     "id": 1,
+      "menu": "Beef Shawarma Roll", 
+      "price": 36000 
+    },
+    {
+     "id": 2,
+      "name": "Chicken Shawarma Roll", 
+      "price": 30500 
+    },
+    {
+     "id": 3,
+      "name": "1 Ekor Ayam Nasi Mandhi (4 Orang)", 
+      "price": 143000 
+    },
+    {
+     "id": 4,
+      "name": "1/2 Ekor Ayam Nasi Mandhi (2 Orang)", 
+      "price": 77000 
+    },
+    {
+     "id": 5,
+      "name": "1/4 Ekor Ayam Nasi Mandhi (1 Orang)", 
+      "price": 37000 
+    },
+    {
+     "id": 6,
+      "name": "1 Ekor Ayam Nasi Kasbah (4 Orang)", 
+      "price": 143000 
+    },
+    {
+     "id": 7,
+      "name": "1/2 Ekor Ayam Nasi Kasbah (2 Orang)", 
+      "price": 75000 
+    },
+    {
+     "id": 8,
+      "name": "1/4 Ekor Ayam Nasi Kasbah (1 Orang)", 
+      "price": 37000 
+    },
+    {
+     "id": 9,
+      "name": "Garlic Mayo Large", 
+      "price": 24000 
+    },
+    {
+     "id": 10
+     , "name": "Garlic Mayo Small", 
+     "price": 6000 
+    }
+]
