@@ -2,7 +2,6 @@ package app
 
 import (
 	"fmt"
-	"koda-b6-golang/internal/order"
 	"koda-b6-golang/internal/utils"
 )
 
@@ -13,19 +12,19 @@ func EmadosApp(){
 		} 
 	}()
 	for{
-		fmt.Printf("\n\n======= Selamat Datang di Emados =========\n\n")
+		fmt.Printf("======= Selamat Datang di Emados =========\n\n")
 		fmt.Println("1. Lihat Menu")
 		fmt.Println("2. Lihat Keranjang")
 		fmt.Println("3. Lihat History")
 		fmt.Printf("\n\n99. Keluar\n")
 
-		choose := utils.ReadInt("\nmasukan input: ") 
+		choose := utils.ReadInt("masukan input: ") 
 
 		switch choose {
 		case 1 :
-			order.AddMenu()
+			fmt.Println("menu")
 		case 2 :
-			order.ShowCart()
+			fmt.Println("Keranjang")
 		case 3 :
 			fmt.Println("history")
 		case 99 :
