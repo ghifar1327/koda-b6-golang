@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -59,4 +61,11 @@ func Confirm(prompt string) bool {
 
 		fmt.Println("Masukkan y atau n")
 	}
+}
+
+func ReadEnter(prompt string) {
+	fmt.Print(prompt)
+
+	reader := bufio.NewReader(os.Stdin)
+	reader.ReadString('\n')
 }
