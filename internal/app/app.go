@@ -27,7 +27,7 @@ func EmadosApp(){
 		case 2 :
 			order.ShowCart()
 		case 3 :
-			fmt.Println("history")
+			order.ShowHistory()
 		case 99 :
 			fmt.Println("Selamat datang kembali")
 		default:

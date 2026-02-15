@@ -63,3 +63,10 @@ func ShowCart() {
 		}
 	}
 }
+
+func ShowHistory(){
+	fmt.Printf("\n=========== HISTORY PESANAN ===========\n")
+	GetHistory()
+	utils.ReadEnter("Tekan Enter untuk kembali...")
+
+}
