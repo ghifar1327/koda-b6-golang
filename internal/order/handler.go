@@ -10,8 +10,11 @@ func AddMenu() {
 	for {
 		fmt.Printf("\n=========== Pilih Menu =============\n\n")
 		menu.ShowMenu()
-		fmt.Printf("\n=========== ========== =============\n")
+		fmt.Printf("\n====================================\n")
 		chose := utils.ReadInt("Masukan input menu (1/10): ")
+		if chose == 99 {
+			return
+		}
 		if chose > 0 && chose <= 10 {
 			qty := utils.ReadInt("\nMau berapa pcs? ")
 			AddCart(chose, qty)
@@ -30,10 +33,15 @@ func ShowCart() {
 	for {
 		fmt.Printf("\n=========== keranjang =============\n\n")
 		if len(Cart) != 0 {
+			var total int
 			for i := range len(Cart) {
 				fmt.Printf("%d. %s, harga: %d, %d pcs, total: Rp.%d \n", Cart[i].Id, Cart[i].Name, Cart[i].Price, Cart[i].Qty, Cart[i].Subtotal)
 			}
-			fmt.Printf("\n=========== ========== =============\n\n")
+			for i := range len(Cart){
+				total+= Cart[i].Subtotal
+			}
+			fmt.Printf("\nTotal: Rp. %d" ,total)
+			fmt.Printf("\n===================================\n")
 
 			fmt.Printf("\n1. Checkout\n")
 			fmt.Println("0. Hapus item")
@@ -41,11 +49,12 @@ func ShowCart() {
 			chose := utils.ReadInt("\nMasukan input: ")
 			switch chose {
 			case 1:
-				fmt.Println("checkout")
+				Checkout()
+				return
 			case 0:
 				DeleteItem()
 			case 99:
-				fmt.Println("exit")
+				return
 			}
 		} else {
 			fmt.Printf("Keranjang masih kosong!\n\n")
