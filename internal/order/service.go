@@ -27,19 +27,19 @@ func AddCart(id int, qty int) {
 			for i, c := range Cart {
 				if c.Name == m.Name {
 					Cart[i].Qty += qty
-					Cart[i].Subtotal = Cart[i].Qty * Cart[i].Price
+					Cart[i].Calc()
 					return
 				}
 
 			}
 
 			item := OrderItem{
-				Id:       len(Cart) + 1,
-				Name:     m.Name,
-				Price:    m.Price,
-				Qty:      qty,
-				Subtotal: m.Price * qty,
+				Id:    len(Cart) + 1,
+				Name:  m.Name,
+				Price: m.Price,
+				Qty:   qty,
 			}
+			item.Calc()
 
 			Cart = append(Cart, item)
 
@@ -52,7 +52,7 @@ func AddCart(id int, qty int) {
 func DeleteItem() {
 	fmt.Printf("\n\n=========== Hapus Item =============\n\n")
 	for i := range len(Cart) {
-		fmt.Printf("%d. %s, harga: %d, %d pcs, total: Rp.%d \n", Cart[i].Id, Cart[i].Name, Cart[i].Price, Cart[i].Qty, Cart[i].Subtotal)
+		fmt.Printf("%d. %s, harga: %d, %d pcs, total: Rp. %d \n", Cart[i].Id, Cart[i].Name, Cart[i].Price, Cart[i].Qty, Cart[i].Subtotal)
 	}
 	fmt.Printf("\n=========== =========== =============\n\n")
 
@@ -63,7 +63,10 @@ func DeleteItem() {
 			item := OrderItem{
 				Id:    len(newCart) + 1,
 				Name:  c.Name,
-				Price: c.Price, Qty: c.Qty, Subtotal: c.Subtotal}
+				Price: c.Price,
+			    Qty: c.Qty, 
+			}
+			item.Calc()
 			newCart = append(newCart, item)
 		}
 	}
@@ -72,37 +75,38 @@ func DeleteItem() {
 }
 
 func Checkout() {
-	var total int
-	for i := range len(Cart) {
-		total += Cart[i].Subtotal
-	}
-	fmt.Printf("\nTotal Pesanan Anda: Rp. %d", total)
-	chose := utils.Confirm("\n\nLanjutkan Pemabayaran")
 
-	if chose {
-		transaction := Transaction{
-			Id:        len(Service.History) + 1,
-			Items:     Cart,
-			Total:     total,
-			CreatedAt: time.Now(),
-		}
-		Service.History = append(Service.History, transaction)
-		Cart = []OrderItem{}
-	} else {
+	transaction := Transaction{
+		Id:        len(Service.History) + 1,
+		Items:     Cart,
+		CreatedAt: time.Now(),
+	}
+	
+	total := transaction.Calc()
+	
+	fmt.Printf("\nTotal Pesanan Anda: Rp. %d", total)
+	
+	chose := utils.Confirm("\n\nLanjutkan Pembayaran")
+	
+	if !chose {
 		return
 	}
-	fmt.Printf("\nYeay... Pesananan Berhasil!\n")	
+	
+	Service.History = append(Service.History, transaction)
+	Cart = []OrderItem{}
+	
+	fmt.Printf("\nYeay... Pesanan Berhasil!\n")
+	
 	utils.ReadEnter("\nTekan Enter Untuk Keluar...")
 }
 
-
-func GetHistory(){
-	for _ , h := range Service.History {
-		fmt.Printf("\nTransaksi #%d | Tanggal: %s\n\n",h.Id, h.CreatedAt.Format("2006-01-02 15:04:05"))
-		for _, i := range h.Items{
+func GetHistory() {
+	for _, h := range Service.History {
+		fmt.Printf("\nTransaksi #%d | Tanggal: %s\n\n", h.Id, h.CreatedAt.Format("2006-01-02 15:04:05"))
+		for _, i := range h.Items {
 			fmt.Printf("- %s x%d = Rp.%d\n", i.Name, i.Qty, i.Subtotal)
 		}
-		fmt.Printf("\nTotal: Rp.%d\n", h.Total)
+		fmt.Printf("\nTotal: Rp.%d\n", h.GrandTotal)
 		fmt.Println("--------------------------------")
 	}
 
