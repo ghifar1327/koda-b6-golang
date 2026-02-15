@@ -5,6 +5,7 @@ import (
 )
 
 func ShowMenu() {
+	defer fmt.Printf("\n99. untuk kembali")
 	menus, err := FecthMenu()
 	if err != nil {
 		fmt.Println("Error:", err)
