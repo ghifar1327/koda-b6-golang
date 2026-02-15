@@ -4,9 +4,16 @@ import (
 	"fmt"
 	"koda-b6-golang/internal/menu"
 	"koda-b6-golang/internal/utils"
+	"time"
 )
 
-var Cart []Item
+var Cart []OrderItem
+
+var Service struct {
+	Id      int
+	Items   []OrderItem
+	History []Transaction
+}
 
 func AddCart(id int, qty int) {
 	menus, err := menu.FecthMenu()
@@ -27,7 +34,7 @@ func AddCart(id int, qty int) {
 
 			}
 
-			item := Item{
+			item := OrderItem{
 				Id:       len(Cart) + 1,
 				Name:     m.Name,
 				Price:    m.Price,
@@ -51,10 +58,10 @@ func DeleteItem() {
 	fmt.Printf("\n=========== =========== =============\n\n")
 
 	id := utils.ReadInt("\n\nMasukan input yang ingin dihapus: ")
-	var newCart []Item
+	var newCart []OrderItem
 	for _, c := range Cart {
 		if c.Id != id {
-			item := Item{
+			item := OrderItem{
 				Id:    len(newCart) + 1,
 				Name:  c.Name,
 				Price: c.Price, Qty: c.Qty, Subtotal: c.Subtotal}
@@ -63,4 +70,28 @@ func DeleteItem() {
 	}
 	Cart = newCart
 	fmt.Printf("\n\nItem berhasil di hapus...\n")
+}
+
+func Checkout() {
+	var total int
+	for i := range len(Cart) {
+		total += Cart[i].Subtotal
+	}
+	fmt.Printf("\nTotal Pesanan Anda: Rp. %d", total)
+	chose := utils.Confirm("\n\nLanjutkan Pemabayaran")
+
+	if chose {
+		transaction := Transaction{
+			Id:        len(Service.History) + 1,
+			Items:     Cart,
+			Total:     total,
+			CreatedAt: time.Now(),
+		}
+		Service.History = append(Service.History, transaction)
+		Cart = []OrderItem{}
+	} else {
+		return
+	}
+	fmt.Printf("\nYeay... Pesananan Berhasil!\n")	
+	utils.ReadEnter("\nTekan Enter Untuk Keluar...")
 }
