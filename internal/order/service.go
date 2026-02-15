@@ -10,7 +10,6 @@ import (
 var Cart []OrderItem
 
 var Service struct {
-	Id      int
 	Items   []OrderItem
 	History []Transaction
 }
@@ -94,4 +93,17 @@ func Checkout() {
 	}
 	fmt.Printf("\nYeay... Pesananan Berhasil!\n")	
 	utils.ReadEnter("\nTekan Enter Untuk Keluar...")
+}
+
+
+func GetHistory(){
+	for _ , h := range Service.History {
+		fmt.Printf("\nTransaksi #%d | Tanggal: %s\n\n",h.Id, h.CreatedAt.Format("2006-01-02 15:04:05"))
+		for _, i := range h.Items{
+			fmt.Printf("- %s x%d = Rp.%d\n", i.Name, i.Qty, i.Subtotal)
+		}
+		fmt.Printf("\nTotal: Rp.%d\n", h.Total)
+		fmt.Println("--------------------------------")
+	}
+
 }
